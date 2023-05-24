@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+    <div>
+        <br>
+        {{ self.subtitle }} is the subtitle
+    </div>
+
+    <br>
+    {% for block in self.content%}
+        {% include_block block %}
+    {% endfor %}
+
+{% endblock %}

@@ -1,0 +1,33 @@
+version: "3.7"
+
+services:
+
+  redis:
+    image: redis:latest
+    container_name: wagtail_service_redis
+
+  server:
+    build:
+      context: .
+    restart: always
+    environment:
+      - ENVIRONMENT=local
+    volumes:
+      - ./src:/src
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+      - redis
+
+  db:
+    build: docker/postgres/.
+    volumes:
+      - wagtail-data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+volumes:
+  wagtail-data:
